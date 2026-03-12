@@ -51,15 +51,14 @@ blockquote { margin: 1em 2em; padding-left: 1em; border-left: 4px solid #595959;
   function generateDocument(opts) {
     const title = escapeHtml(opts.title || 'Untitled Document');
     const author = escapeHtml(opts.author || '');
-    const source = opts.source ? escapeHtml(opts.source) : '';
     const lang = opts.lang || 'en';
     const contentHtml = opts.contentHtml || '';
 
     const bylineParts = [];
-    if (author) bylineParts.push(escapeHtml(author));
-    if (source) {
+    if (author) bylineParts.push(author);
+    if (opts.source) {
       const isUrl = /^https?:\/\//i.test(opts.source);
-      bylineParts.push(isUrl ? '<a href="' + escapeAttr(opts.source) + '">Source</a>' : escapeHtml(source));
+      bylineParts.push(isUrl ? '<a href="' + escapeAttr(opts.source) + '">Source</a>' : escapeHtml(opts.source));
     }
     const byline = bylineParts.length ? '<p class="byline">' + bylineParts.join(' \u2022 ') + '</p>' : '';
 

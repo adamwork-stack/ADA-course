@@ -50,14 +50,14 @@
       const actions = document.createElement('div');
       actions.className = 'structure-block-actions';
 
-      const tags = ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'pre', 'div'];
+      const tags = ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'pre'];
       tags.forEach(function (tag) {
-        if (tag === 'div') return; // verse uses div.verse-block
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.textContent = tag;
         btn.addEventListener('click', function () {
-          blocks[index].type = tag === 'pre' ? 'pre' : tag === 'verse' ? 'div' : tag;
+          blocks[index].type = tag === 'pre' ? 'pre' : tag;
+          if (tag !== 'div') delete blocks[index].isVerse;
           renderStructureEditor();
           updatePreview();
         });
