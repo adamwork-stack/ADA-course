@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WCAG 2.1 AA Instructional Materials Converter</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <header class="app-header" role="banner">
+    <h1>WCAG 2.1 AA Instructional Materials Converter</h1>
+    <p class="subtitle">Convert pasted literature text into accessible HTML documents for students</p>
+  </header>
+
+  <main id="main-content" role="main">
+    <section class="panel input-panel" aria-labelledby="input-heading">
+      <h2 id="input-heading">1. Metadata &amp; Source Text</h2>
+      <div class="form-group">
+        <label for="doc-title">Document title</label>
+        <input type="text" id="doc-title" name="doc-title" placeholder="e.g., Pride and Prejudice, Chapter 1" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label for="doc-author">Author</label>
+        <input type="text" id="doc-author" name="doc-author" placeholder="e.g., Jane Austen" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label for="doc-source">Source URL (optional)</label>
+        <input type="url" id="doc-source" name="doc-source" placeholder="https://example.com/text" autocomplete="url">
+      </div>
+      <div class="form-group">
+        <label for="doc-lang">Document language</label>
+        <select id="doc-lang" name="doc-lang" aria-describedby="doc-lang-hint">
+          <option value="en">English</option>
+          <option value="es">Spanish</option>
+          <option value="fr">French</option>
+          <option value="de">German</option>
+          <option value="la">Latin</option>
+        </select>
+        <span id="doc-lang-hint" class="hint">Used for screen reader pronunciation</span>
+      </div>
+      <div class="form-group">
+        <label for="paste-area">Pasted text from website</label>
+        <textarea id="paste-area" name="paste-area" rows="12" placeholder="Paste your literature text here. Use blank lines to separate paragraphs. Lines in ALL CAPS or starting with 'Chapter' may be detected as headings."></textarea>
+      </div>
+      <div class="button-group">
+        <button type="button" id="btn-detect" class="btn btn-primary">Detect structure</button>
+        <button type="button" id="btn-clear" class="btn btn-secondary">Clear all</button>
+      </div>
+    </section>
+
+    <section class="panel structure-panel" aria-labelledby="structure-heading" aria-hidden="true">
+      <h2 id="structure-heading">2. Structure editor</h2>
+      <p class="panel-hint">Select a block below to change its markup. Use "Detect structure" to auto-suggest headings from patterns (e.g. Chapter I, ALL CAPS).</p>
+      <div id="structure-editor" class="structure-editor"></div>
+      <div class="button-group">
+        <button type="button" id="btn-preview" class="btn btn-primary">Show preview</button>
+      </div>
+    </section>
+
+    <section class="panel preview-panel" aria-labelledby="preview-heading" aria-hidden="true">
+      <h2 id="preview-heading">3. Preview</h2>
+      <div class="preview-controls">
+        <button type="button" id="btn-toggle-view" class="btn btn-secondary" aria-pressed="false">Toggle side-by-side view</button>
+      </div>
+      <div id="preview-container" class="preview-container">
+        <div id="preview-content" class="preview-content" role="document" aria-label="Document preview"></div>
+      </div>
+    </section>
+
+    <section class="panel export-panel" aria-labelledby="export-heading">
+      <h2 id="export-heading">4. Export</h2>
+      <p>Download a standalone HTML file with embedded styles. No external dependencies. Compliant with WCAG 2.1 Level AA.</p>
+      <div class="button-group">
+        <button type="button" id="btn-export" class="btn btn-primary">Download HTML file</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/structure.js"></script>
+  <script src="js/export.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
