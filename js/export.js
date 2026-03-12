@@ -7,23 +7,23 @@
 
   const DEFAULT_CSS = `
 /* WCAG 2.1 AA compliant document styles */
-:root { --text: #333; --bg: #fff; --link: #0056b3; --focus: #0056b3; }
+:root { --text: #2c2c2c; --bg: #faf9f7; --link: #1e5f8a; --focus: #1e5f8a; --accent: #1e5f8a; }
 * { box-sizing: border-box; }
-html { font-size: 100%; line-height: 1.5; -webkit-text-size-adjust: 100%; }
-body { margin: 0; padding: 1.5rem; font-family: Georgia, serif; font-size: 1rem; color: var(--text); background: var(--bg); max-width: 45rem; margin-left: auto; margin-right: auto; }
-.skip-link { position: absolute; top: -3rem; left: 1rem; padding: 0.5rem 1rem; background: var(--bg); color: var(--link); border: 2px solid var(--focus); text-decoration: none; z-index: 100; }
+html { font-size: 100%; line-height: 1.6; -webkit-text-size-adjust: 100%; }
+body { margin: 0; padding: 2rem 1.5rem; font-family: Georgia, "Times New Roman", serif; font-size: 1.0625rem; color: var(--text); background: var(--bg); max-width: 42rem; margin-left: auto; margin-right: auto; }
+.skip-link { position: absolute; top: -4rem; left: 1rem; padding: 0.625rem 1.25rem; background: #fff; color: var(--link); border: 2px solid var(--focus); text-decoration: none; border-radius: 6px; z-index: 100; font-weight: 600; }
 .skip-link:focus { top: 1rem; outline: 3px solid var(--focus); outline-offset: 2px; }
 :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 a { color: var(--link); text-decoration: underline; }
-a:visited { color: #551a8b; }
+a:visited { color: #5a2d82; }
 a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
-h1, h2, h3, h4, h5, h6 { margin: 1.5em 0 0.5em; line-height: 1.3; }
+h1, h2, h3, h4, h5, h6 { margin: 1.5em 0 0.5em; line-height: 1.35; }
 h1:first-child, h2:first-child { margin-top: 0; }
 p { margin: 0 0 1em; }
-blockquote { margin: 1em 2em; padding-left: 1em; border-left: 4px solid #595959; font-style: italic; }
-.verse-block, pre { white-space: pre-wrap; margin: 1em 0; padding: 1em; background: #f5f5f5; }
-.byline { color: #595959; font-size: 0.95rem; margin-bottom: 1.5rem; }
-@media print { .skip-link { display: none; } }
+blockquote { margin: 1.25em 2em; padding-left: 1.25rem; border-left: 4px solid var(--accent); font-style: italic; }
+.verse-block, pre { white-space: pre-wrap; margin: 1.25em 0; padding: 1rem 1.25rem; background: #f3f2ef; border-radius: 6px; }
+.byline { color: #525252; font-size: 0.9375rem; margin-bottom: 1.5rem; }
+@media print { .skip-link { display: none; } body { background: #fff; } }
 `;
 
   function escapeHtml(str) {

@@ -15,7 +15,7 @@
 
   <main id="main-content" role="main">
     <section class="panel input-panel" aria-labelledby="input-heading">
-      <h2 id="input-heading">1. Metadata &amp; Source Text</h2>
+      <h2 id="input-heading" data-step="1">Metadata &amp; Source Text</h2>
       <div class="form-group">
         <label for="doc-title">Document title</label>
         <input type="text" id="doc-title" name="doc-title" placeholder="e.g., Pride and Prejudice, Chapter 1" autocomplete="off">
@@ -50,7 +50,7 @@
     </section>
 
     <section class="panel structure-panel" aria-labelledby="structure-heading" aria-hidden="true">
-      <h2 id="structure-heading">2. Structure editor</h2>
+      <h2 id="structure-heading" data-step="2">Structure editor</h2>
       <p class="panel-hint">Select a block below to change its markup. Use "Detect structure" to auto-suggest headings from patterns (e.g. Chapter I, ALL CAPS).</p>
       <div id="structure-editor" class="structure-editor"></div>
       <div class="button-group">
@@ -59,7 +59,7 @@
     </section>
 
     <section class="panel preview-panel" aria-labelledby="preview-heading" aria-hidden="true">
-      <h2 id="preview-heading">3. Preview</h2>
+      <h2 id="preview-heading" data-step="3">Preview</h2>
       <div class="preview-controls">
         <button type="button" id="btn-toggle-view" class="btn btn-secondary" aria-pressed="false">Toggle side-by-side view</button>
       </div>
@@ -69,7 +69,7 @@
     </section>
 
     <section class="panel export-panel" aria-labelledby="export-heading">
-      <h2 id="export-heading">4. Export</h2>
+      <h2 id="export-heading" data-step="4">Export</h2>
       <p>Download a standalone HTML file with embedded styles. No external dependencies. Compliant with WCAG 2.1 Level AA.</p>
       <div class="button-group">
         <button type="button" id="btn-export" class="btn btn-primary">Download HTML file</button>
