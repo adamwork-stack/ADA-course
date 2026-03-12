@@ -33,6 +33,16 @@ blockquote { margin: 1em 2em; padding-left: 1em; border-left: 4px solid #595959;
     return div.innerHTML;
   }
 
+  function escapeAttr(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
   /**
    * Generate full standalone HTML document
    * @param {Object} opts - { title, author, source, lang, contentHtml }
@@ -45,8 +55,13 @@ blockquote { margin: 1em 2em; padding-left: 1em; border-left: 4px solid #595959;
     const lang = opts.lang || 'en';
     const contentHtml = opts.contentHtml || '';
 
-    const bylineParts = [author, source].filter(Boolean);
-    const byline = bylineParts.length ? '<p class="byline">' + escapeHtml(bylineParts.join(' \u2022 ')) + '</p>' : '';
+    const bylineParts = [];
+    if (author) bylineParts.push(escapeHtml(author));
+    if (source) {
+      const isUrl = /^https?:\/\//i.test(opts.source);
+      bylineParts.push(isUrl ? '<a href="' + escapeAttr(opts.source) + '">Source</a>' : escapeHtml(source));
+    }
+    const byline = bylineParts.length ? '<p class="byline">' + bylineParts.join(' \u2022 ') + '</p>' : '';
 
     return `<!DOCTYPE html>
 <html lang="${escapeHtml(lang)}">

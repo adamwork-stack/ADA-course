@@ -20,74 +20,44 @@
 
   /**
    * Parse plain text into blocks with suggested structure
+   * Splits by blank lines; detects headings from ALL CAPS, Roman numerals, "Chapter X"
    * @param {string} text - Raw pasted text
-   * @returns {Array<{type: string, content: string, raw?: boolean}>}
+   * @returns {Array<{type: string, content: string}>}
    */
   function detectStructure(text) {
     if (!text || typeof text !== 'string') return [];
-    const lines = text.split(/\r?\n/);
+    const rawChunks = text.split(/\n\s*\n/);
     const blocks = [];
-    let i = 0;
 
-    while (i < lines.length) {
-      const line = lines[i];
-      const trimmed = line.trim();
-
-      if (!trimmed) {
-        i++;
-        continue;
-      }
+    for (let i = 0; i < rawChunks.length; i++) {
+      const chunk = rawChunks[i].trim();
+      if (!chunk) continue;
 
       let type = BLOCK_TYPES.P;
-      let content = line;
+      const firstLine = chunk.split(/\n/)[0];
+      const trimmed = firstLine.trim();
 
-      // Check for heading patterns
-      if (ROMAN_NUMERALS.test(trimmed)) {
+      let content = chunk;
+      if (ROMAN_NUMERALS.test(trimmed) && chunk.split(/\n/).length <= 3) {
         const match = trimmed.match(ROMAN_NUMERALS);
         type = BLOCK_TYPES.H2;
-        content = match[3] ? `${match[1]} ${match[2]}: ${match[3]}` : `${match[1]} ${match[2]}`;
-      } else if (HEADING_LIKE.test(trimmed) && trimmed.length < 80) {
+        content = match[3] ? match[1] + ' ' + match[2] + ': ' + match[3] : match[1] + ' ' + match[2];
+      } else if (HEADING_LIKE.test(trimmed) && chunk.length < 120) {
         type = BLOCK_TYPES.H2;
       } else if (ALL_CAPS.test(trimmed) && trimmed.length > 2 && trimmed.length < 100) {
         type = BLOCK_TYPES.H3;
       }
 
-      blocks.push({ type, content: content });
-      i++;
+      blocks.push({ type: type, content: content });
     }
 
-    // Merge consecutive non-heading lines into paragraphs (split by blank lines)
-    return mergeParagraphs(blocks);
-  }
-
-  /**
-   * Merge consecutive p blocks separated by detected structure
-   */
-  function mergeParagraphs(blocks) {
-    const result = [];
-    let pending = [];
-
-    for (const block of blocks) {
-      if (block.type === BLOCK_TYPES.P) {
-        pending.push(block.content);
-      } else {
-        if (pending.length) {
-          result.push({ type: BLOCK_TYPES.P, content: pending.join('\n\n') });
-          pending = [];
-        }
-        result.push(block);
-      }
-    }
-    if (pending.length) {
-      result.push({ type: BLOCK_TYPES.P, content: pending.join('\n\n') });
-    }
-    return result;
+    return blocks;
   }
 
   /**
    * Render blocks as HTML string
-   * @param {Array} blocks
-   * @param {string} lang - Document language
+   * @param {Array} blocks - [{ type, content, class?, isVerse? }]
+   * @param {string} lang - Document language (reserved for future lang attribute on parts)
    * @returns {string}
    */
   function blocksToHtml(blocks, lang) {
@@ -95,11 +65,12 @@
     const parts = blocks.map(function (b) {
       const tag = b.type;
       const inner = escapeHtml(b.content).replace(/\n/g, '<br>');
+      const hasVerseClass = (tag === 'div' && (b.isVerse || b.class === 'verse-block'));
       if (tag === 'blockquote') {
         return '<blockquote>' + inner + '</blockquote>';
       }
       if (tag === 'pre' || tag === 'div') {
-        const cls = tag === 'div' ? ' class="verse-block"' : '';
+        const cls = (tag === 'div' && hasVerseClass) ? ' class="verse-block"' : (tag === 'pre' ? '' : (b.class ? ' class="' + escapeHtml(b.class) + '"' : ''));
         return '<' + tag + cls + '>' + inner + '</' + tag + '>';
       }
       return '<' + tag + '>' + inner + '</' + tag + '>';
